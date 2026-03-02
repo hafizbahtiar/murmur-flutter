@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:video_player/video_player.dart';
@@ -105,10 +106,20 @@ class _LiveVideoScreenState extends ConsumerState<LiveVideoScreen> {
                 ),
                 child: Row(
                   children: [
-                    const CircleAvatar(
-                      radius: 16,
-                      backgroundImage: NetworkImage(
-                        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+                    ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+                        width: 32,
+                        height: 32,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => Container(color: Colors.grey[800], width: 32, height: 32),
+                        errorWidget: (context, url, error) => Container(
+                          color: Colors.grey[800],
+                          width: 32,
+                          height: 32,
+                          child: const Icon(Icons.person, size: 16, color: Colors.white),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 8),

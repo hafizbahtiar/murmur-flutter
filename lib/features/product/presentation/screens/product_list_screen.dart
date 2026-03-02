@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../cart/presentation/providers/cart_provider.dart';
 import '../../../cart/presentation/screens/cart_screen.dart';
+import '../../../chat/presentation/providers/chat_provider.dart';
+import '../../../chat/presentation/screens/chat_list_screen.dart';
 import '../../../shared/presentation/widgets/app_empty_state.dart';
 import '../../../shared/presentation/widgets/app_loading_state.dart';
 import '../providers/product_provider.dart';
@@ -14,6 +17,8 @@ class ProductListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final products = ref.watch(productListProvider);
     final cartItems = ref.watch(cartProvider);
+    final chatListAsync = ref.watch(chatListProvider);
+    final unreadChatCount = chatListAsync.value?.fold<int>(0, (sum, chat) => sum + chat.unreadCount) ?? 0;
     final cartItemCount = cartItems.length;
     const primaryColor = Color(0xFFEE4D2D);
     const murmurGreen = Color(0xFF1E8373); // Dark Green Background
@@ -63,10 +68,12 @@ class ProductListScreen extends ConsumerWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => const ChatListScreen()));
+                  },
                   icon: Badge(
-                    isLabelVisible: true,
-                    label: const Text('20'),
+                    isLabelVisible: unreadChatCount > 0,
+                    label: Text(unreadChatCount > 99 ? '99+' : unreadChatCount.toString()),
                     backgroundColor: Colors.white,
                     textColor: primaryColor,
                     child: const Icon(Icons.chat_bubble_outline, color: Colors.white),
@@ -438,7 +445,12 @@ class ProductListScreen extends ConsumerWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 2),
-                    child: Image.network(imageUrl, fit: BoxFit.contain),
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      fit: BoxFit.contain,
+                      placeholder: (context, url) => const Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
+                      errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.grey),
+                    ),
                   ),
                 ),
               if (isMain) const Spacer(),
@@ -527,7 +539,24 @@ class ProductListScreen extends ConsumerWidget {
             borderRadius: BorderRadius.circular(8),
             child: Stack(
               children: [
-                Image.network(imageUrl, height: 140, width: double.infinity, fit: BoxFit.cover),
+                CachedNetworkImage(
+                  imageUrl: imageUrl,
+                  height: 140,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    height: 140,
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    height: 140,
+                    width: double.infinity,
+                    color: Colors.grey[200],
+                    child: const Icon(Icons.error, color: Colors.grey),
+                  ),
+                ),
                 Positioned(
                   top: 8,
                   left: 8,

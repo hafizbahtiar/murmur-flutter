@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../cart/presentation/providers/cart_provider.dart';
@@ -76,10 +77,32 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                               itemCount: product.images.length,
                               onPageChanged: (index) => setState(() => _currentImageIndex = index),
                               itemBuilder: (context, index) {
-                                return Image.network(product.images[index], fit: BoxFit.cover);
+                                return CachedNetworkImage(
+                                  imageUrl: product.images[index],
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => Container(
+                                    color: Colors.grey[200],
+                                    child: const Center(child: CircularProgressIndicator(color: Color(0xFFEE4D2D))),
+                                  ),
+                                  errorWidget: (context, url, error) => Container(
+                                    color: Colors.grey[200],
+                                    child: const Icon(Icons.broken_image, color: Colors.grey, size: 48),
+                                  ),
+                                );
                               },
                             )
-                          : Image.network('https://picsum.photos/400/400?random=${product.id}', fit: BoxFit.cover),
+                          : CachedNetworkImage(
+                              imageUrl: 'https://picsum.photos/400/400?random=${product.id}',
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Container(
+                                color: Colors.grey[200],
+                                child: const Center(child: CircularProgressIndicator(color: Color(0xFFEE4D2D))),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                color: Colors.grey[200],
+                                child: const Icon(Icons.broken_image, color: Colors.grey, size: 48),
+                              ),
+                            ),
                     ),
                     // Image Counter
                     if (product.images.isNotEmpty)
@@ -495,12 +518,22 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                                 Expanded(
                                                   child: ClipRRect(
                                                     borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
-                                                    child: Image.network(
-                                                      item.images.isNotEmpty
+                                                    child: CachedNetworkImage(
+                                                      imageUrl: item.images.isNotEmpty
                                                           ? item.images.first
                                                           : 'https://picsum.photos/200/200?random=${item.id}',
                                                       fit: BoxFit.cover,
                                                       width: double.infinity,
+                                                      placeholder: (context, url) => Container(
+                                                        color: Colors.grey[200],
+                                                        child: const Center(
+                                                          child: CircularProgressIndicator(color: Color(0xFFEE4D2D)),
+                                                        ),
+                                                      ),
+                                                      errorWidget: (context, url, error) => Container(
+                                                        color: Colors.grey[200],
+                                                        child: const Icon(Icons.broken_image, color: Colors.grey),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),

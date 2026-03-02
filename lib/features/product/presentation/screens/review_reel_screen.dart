@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../domain/models/product.dart';
 import '../../domain/models/product_review.dart';
@@ -141,7 +142,17 @@ class _ReviewReelItemState extends State<_ReviewReelItem> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              CircleAvatar(radius: 20, backgroundImage: NetworkImage(review.userAvatarUrl)),
+              ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: review.userAvatarUrl,
+                  width: 40,
+                  height: 40,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(color: Colors.grey[200], width: 40, height: 40),
+                  errorWidget: (context, url, error) =>
+                      Container(color: Colors.grey[200], width: 40, height: 40, child: const Icon(Icons.person)),
+                ),
+              ),
               const SizedBox(height: 24),
               Column(
                 children: const [

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../domain/models/product_review.dart';
 
@@ -21,7 +22,21 @@ class ProductReviewCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(backgroundImage: NetworkImage(review.userAvatarUrl), radius: 16),
+              ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: review.userAvatarUrl,
+                  width: 32,
+                  height: 32,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(color: Colors.grey[200], width: 32, height: 32),
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.grey[200],
+                    width: 32,
+                    height: 32,
+                    child: const Icon(Icons.person, size: 16),
+                  ),
+                ),
+              ),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -52,11 +67,7 @@ class ProductReviewCard extends StatelessWidget {
               } else if (review.rating >= index + 0.5) {
                 icon = Icons.star_half;
               }
-              return Icon(
-                icon,
-                size: 12,
-                color: const Color(0xFFEE4D2D),
-              );
+              return Icon(icon, size: 12, color: const Color(0xFFEE4D2D));
             }),
           ),
           if (review.variant != null) ...[
@@ -81,7 +92,16 @@ class ProductReviewCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey[300]!),
                         borderRadius: BorderRadius.circular(4),
-                        image: DecorationImage(image: NetworkImage(review.imageUrls[index]), fit: BoxFit.cover),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: CachedNetworkImage(
+                          imageUrl: review.imageUrls[index],
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Container(color: Colors.grey[200]),
+                          errorWidget: (context, url, error) =>
+                              Container(color: Colors.grey[200], child: const Icon(Icons.error)),
+                        ),
                       ),
                     ),
                   );

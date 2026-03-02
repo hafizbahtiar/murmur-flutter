@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../cart/presentation/providers/cart_provider.dart';
@@ -87,10 +88,19 @@ class ProfileScreen extends ConsumerWidget {
                     padding: const EdgeInsets.only(left: 16),
                     child: Row(
                       children: [
-                        const CircleAvatar(
+                        CircleAvatar(
                           radius: 28,
                           backgroundColor: Colors.white,
-                          child: CircleAvatar(radius: 26, backgroundImage: NetworkImage('https://picsum.photos/100')),
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                              imageUrl: 'https://picsum.photos/100',
+                              width: 52,
+                              height: 52,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const CircularProgressIndicator(strokeWidth: 2),
+                              errorWidget: (context, url, error) => const Icon(Icons.person, color: Colors.grey),
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Column(

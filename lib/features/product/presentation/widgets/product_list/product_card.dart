@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../domain/models/product.dart';
@@ -38,9 +39,14 @@ class ProductCard extends ConsumerWidget {
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
-                      image: DecorationImage(
-                        image: NetworkImage('https://picsum.photos/200?random=${product.id}'),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
+                      child: CachedNetworkImage(
+                        imageUrl: 'https://picsum.photos/200?random=${product.id}',
                         fit: BoxFit.cover,
+                        placeholder: (context, url) => const Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                        errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.grey),
                       ),
                     ),
                   ),

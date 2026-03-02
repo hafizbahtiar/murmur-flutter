@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../domain/models/notification_item.dart';
@@ -27,9 +28,15 @@ class NotificationListTile extends StatelessWidget {
                   width: 36,
                   height: 36,
                   margin: const EdgeInsets.only(right: 12),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: NetworkImage(item.imageUrl!), fit: BoxFit.cover),
-                    shape: BoxShape.circle,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: item.imageUrl!,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => Container(color: Colors.grey[200]),
+                      errorWidget: (context, url, error) =>
+                          Container(color: Colors.grey[200], child: const Icon(Icons.error, size: 16)),
+                    ),
                   ),
                 )
               else
@@ -49,14 +56,7 @@ class NotificationListTile extends StatelessWidget {
                       style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.black),
                     ),
                     const SizedBox(height: 6),
-                    Text(
-                      item.description,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade700,
-                        height: 1.3,
-                      ),
-                    ),
+                    Text(item.description, style: TextStyle(fontSize: 14, color: Colors.grey.shade700, height: 1.3)),
                     const SizedBox(height: 12),
                     if (item.bannerUrl != null)
                       ClipRRect(
@@ -71,21 +71,13 @@ class NotificationListTile extends StatelessWidget {
                               height: 150,
                               width: double.infinity,
                               color: Colors.grey.shade200,
-                              child: const Center(
-                                child: Icon(Icons.broken_image, color: Colors.grey),
-                              ),
+                              child: const Center(child: Icon(Icons.broken_image, color: Colors.grey)),
                             );
                           },
                         ),
                       ),
                     const SizedBox(height: 8),
-                    Text(
-                      _formatTimestamp(item.timestamp),
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey.shade500,
-                      ),
-                    ),
+                    Text(_formatTimestamp(item.timestamp), style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
                   ],
                 ),
               ),

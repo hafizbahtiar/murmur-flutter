@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../domain/models/notification_item.dart';
@@ -23,7 +24,16 @@ class OrderUpdateTile extends StatelessWidget {
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.shade200),
                 borderRadius: BorderRadius.circular(4),
-                image: DecorationImage(image: NetworkImage(update.imageUrl!), fit: BoxFit.cover),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: CachedNetworkImage(
+                  imageUrl: update.imageUrl!,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(color: Colors.grey[200]),
+                  errorWidget: (context, url, error) =>
+                      Container(color: Colors.grey[200], child: const Icon(Icons.error)),
+                ),
               ),
             ),
           if (update.imageUrl != null) const SizedBox(width: 12),
