@@ -9,54 +9,6 @@ part of 'notification_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(notificationRepository)
-final notificationRepositoryProvider = NotificationRepositoryProvider._();
-
-final class NotificationRepositoryProvider
-    extends
-        $FunctionalProvider<
-          NotificationRepository,
-          NotificationRepository,
-          NotificationRepository
-        >
-    with $Provider<NotificationRepository> {
-  NotificationRepositoryProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'notificationRepositoryProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$notificationRepositoryHash();
-
-  @$internal
-  @override
-  $ProviderElement<NotificationRepository> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
-
-  @override
-  NotificationRepository create(Ref ref) {
-    return notificationRepository(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(NotificationRepository value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<NotificationRepository>(value),
-    );
-  }
-}
-
-String _$notificationRepositoryHash() =>
-    r'711848763ab964b9b6d2713e387efcfdbe74bc73';
-
 @ProviderFor(notificationCategories)
 final notificationCategoriesProvider = NotificationCategoriesProvider._();
 
@@ -97,7 +49,7 @@ final class NotificationCategoriesProvider
 }
 
 String _$notificationCategoriesHash() =>
-    r'4f912585b671f00e3c841226cafd259cfbd4ee50';
+    r'd79fcb835935243dc78e7017460dfea133d98271';
 
 @ProviderFor(orderUpdates)
 final orderUpdatesProvider = OrderUpdatesProvider._();
@@ -138,7 +90,7 @@ final class OrderUpdatesProvider
   }
 }
 
-String _$orderUpdatesHash() => r'a9315c9a521988f1963f4fa010927659e110f8f1';
+String _$orderUpdatesHash() => r'2d537bbd525403c8e361a3fd5fc0816b04ff1965';
 
 @ProviderFor(notificationList)
 final notificationListProvider = NotificationListFamily._();
@@ -197,7 +149,7 @@ final class NotificationListProvider
   }
 }
 
-String _$notificationListHash() => r'3b9d349d1d4314071994cafefc92ee5a0bbb0b4b';
+String _$notificationListHash() => r'47f7f7933190e5fc7c81794351256674b74f2c50';
 
 final class NotificationListFamily extends $Family
     with
@@ -252,4 +204,4 @@ final class TotalUnreadCountProvider
   }
 }
 
-String _$totalUnreadCountHash() => r'20c9182756d28b65708ad631d8375fd346867c7f';
+String _$totalUnreadCountHash() => r'd5b2084cfd4960a86160aa6e74074da34f65a3fb';

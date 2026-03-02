@@ -228,7 +228,7 @@ class FakeProductReviewRepository implements ProductReviewRepository {
   ];
 
   @override
-  Future<List<ProductReview>> getReviewsByProductId(String productId) async {
+  Future<List<ProductReview>> getProductReviews(String productId) async {
     await Future.delayed(const Duration(milliseconds: 500)); // Simulate network delay
     return _reviews.where((review) => review.productId == productId).toList();
   }

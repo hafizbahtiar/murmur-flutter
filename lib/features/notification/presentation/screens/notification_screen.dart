@@ -14,7 +14,7 @@ class NotificationScreen extends ConsumerWidget {
     final categoriesAsync = ref.watch(notificationCategoriesProvider);
     final updatesAsync = ref.watch(orderUpdatesProvider);
     final cartItems = ref.watch(cartProvider);
-    final cartItemCount = cartItems.fold<int>(0, (sum, item) => sum + item.quantity);
+    final cartItemCount = cartItems.length;
 
     return Scaffold(
       appBar: AppBar(

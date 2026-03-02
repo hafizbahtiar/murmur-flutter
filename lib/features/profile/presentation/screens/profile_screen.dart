@@ -13,7 +13,7 @@ class ProfileScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     const primaryColor = Color(0xFFEE4D2D);
     final cartItems = ref.watch(cartProvider);
-    final cartItemCount = cartItems.fold<int>(0, (sum, item) => sum + item.quantity);
+    final cartItemCount = cartItems.length;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F5),

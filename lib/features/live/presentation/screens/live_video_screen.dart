@@ -72,87 +72,87 @@ class _LiveVideoScreenState extends ConsumerState<LiveVideoScreen> {
             ),
 
             // Top Navigation
-          Positioned(
-            top: MediaQuery.of(context).padding.top + 10,
-            left: 16,
-            right: 16,
-            child: Row(
-              children: [
-                const Icon(Icons.person_outline, color: Colors.white, size: 28),
-                const SizedBox(width: 16),
-                const Icon(Icons.search, color: Colors.white, size: 28),
-                const Spacer(),
-                _buildTopTab('Video'),
-                const SizedBox(width: 16),
-                _buildTopTab('Live'),
-                const SizedBox(width: 16),
-                _buildTopTab('For You'),
-                const Spacer(),
-                const Icon(Icons.add_box_outlined, color: Colors.white, size: 28),
-              ],
-            ),
-          ),
-
-          // Host Info Bar (Below Top Nav)
-          Positioned(
-            top: MediaQuery.of(context).padding.top + 60,
-            left: 16,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(20),
-              ),
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 10,
+              left: 16,
+              right: 16,
               child: Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 16,
-                    backgroundImage: NetworkImage(
-                      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Text(
-                            'Shopee Live Host',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
-                          ),
-                          const SizedBox(width: 4),
-                          const Icon(Icons.verified, color: Colors.yellow, size: 12),
-                        ],
-                      ),
-                      const Text('12.5K Viewers', style: TextStyle(color: Colors.white70, fontSize: 10)),
-                    ],
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEE4D2D), // Shopee Orange
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Row(
-                      children: [
-                        Icon(Icons.add, color: Colors.white, size: 12),
-                        SizedBox(width: 2),
-                        Text(
-                          'Follow',
-                          style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
+                  const Icon(Icons.person_outline, color: Colors.white, size: 28),
+                  const SizedBox(width: 16),
+                  const Icon(Icons.search, color: Colors.white, size: 28),
+                  const Spacer(),
+                  _buildTopTab('Video'),
+                  const SizedBox(width: 16),
+                  _buildTopTab('Live'),
+                  const SizedBox(width: 16),
+                  _buildTopTab('For You'),
+                  const Spacer(),
+                  const Icon(Icons.add_box_outlined, color: Colors.white, size: 28),
                 ],
               ),
             ),
-          ),
-        ],
+
+            // Host Info Bar (Below Top Nav)
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 60,
+              left: 16,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    const CircleAvatar(
+                      radius: 16,
+                      backgroundImage: NetworkImage(
+                        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            const Text(
+                              'Shopee Live Host',
+                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                            ),
+                            const SizedBox(width: 4),
+                            const Icon(Icons.verified, color: Colors.yellow, size: 12),
+                          ],
+                        ),
+                        const Text('12.5K Viewers', style: TextStyle(color: Colors.white70, fontSize: 10)),
+                      ],
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEE4D2D), // Shopee Orange
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.add, color: Colors.white, size: 12),
+                          SizedBox(width: 2),
+                          Text(
+                            'Follow',
+                            style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
     );
   }
 

@@ -9,54 +9,6 @@ part of 'product_review_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(productReviewRepository)
-final productReviewRepositoryProvider = ProductReviewRepositoryProvider._();
-
-final class ProductReviewRepositoryProvider
-    extends
-        $FunctionalProvider<
-          ProductReviewRepository,
-          ProductReviewRepository,
-          ProductReviewRepository
-        >
-    with $Provider<ProductReviewRepository> {
-  ProductReviewRepositoryProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'productReviewRepositoryProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$productReviewRepositoryHash();
-
-  @$internal
-  @override
-  $ProviderElement<ProductReviewRepository> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
-
-  @override
-  ProductReviewRepository create(Ref ref) {
-    return productReviewRepository(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ProductReviewRepository value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<ProductReviewRepository>(value),
-    );
-  }
-}
-
-String _$productReviewRepositoryHash() =>
-    r'fc7cad9816f2b0b18e4bd62c2e01ccf59570fb8e';
-
 @ProviderFor(productReviews)
 final productReviewsProvider = ProductReviewsFamily._();
 
@@ -114,7 +66,7 @@ final class ProductReviewsProvider
   }
 }
 
-String _$productReviewsHash() => r'3d19bce291ce4b0741dc5413caf5196bed584297';
+String _$productReviewsHash() => r'94c654a9ca47434cba5951c8f2f5e7c86922ea86';
 
 final class ProductReviewsFamily extends $Family
     with $FunctionalFamilyOverride<FutureOr<List<ProductReview>>, String> {

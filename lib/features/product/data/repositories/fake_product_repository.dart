@@ -120,13 +120,13 @@ class FakeProductRepository implements ProductRepository {
   ];
 
   @override
-  Future<List<Product>> fetchProducts() async {
+  Future<List<Product>> getProducts() async {
     await Future.delayed(const Duration(seconds: 1));
     return _products;
   }
 
   @override
-  Future<Product> fetchProductDetail(String id) async {
+  Future<Product> getProductDetail(String id) async {
     await Future.delayed(const Duration(seconds: 1));
     return _products.firstWhere(
       (p) => p.id == id,

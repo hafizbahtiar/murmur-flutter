@@ -51,7 +51,7 @@ class FakeLiveVideoRepository implements LiveVideoRepository {
   ];
 
   @override
-  Future<List<LiveVideo>> fetchVideos({String category = 'For You'}) async {
+  Future<List<LiveVideo>> getVideos({String category = 'For You'}) async {
     await Future.delayed(const Duration(milliseconds: 500));
     
     // Simple mock filtering or shuffling based on category

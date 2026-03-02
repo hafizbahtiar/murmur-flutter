@@ -1,6 +1,6 @@
 import '../models/product.dart';
 
 abstract class ProductRepository {
-  Future<List<Product>> fetchProducts();
-  Future<Product> fetchProductDetail(String id);
+  Future<List<Product>> getProducts();
+  Future<Product> getProductDetail(String id);
 }

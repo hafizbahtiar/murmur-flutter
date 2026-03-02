@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import '../../di/cart_di.dart';
 import '../../domain/models/cart_item.dart';
 import '../../../product/domain/models/product.dart';
 
@@ -8,49 +9,42 @@ part 'cart_provider.g.dart';
 class CartNotifier extends _$CartNotifier {
   @override
   List<CartItem> build() {
-    return [];
+    final getCartItems = ref.watch(getCartItemsUseCaseProvider);
+    return getCartItems();
   }
 
   void addToCart(Product product) {
-    final index = state.indexWhere((item) => item.product.id == product.id);
-
-    if (index >= 0) {
-      final updatedItem = state[index].copyWith(quantity: state[index].quantity + 1);
-
-      state = [...state..removeAt(index), updatedItem];
-    } else {
-      state = [...state, CartItem(product: product, quantity: 1)];
-    }
+    final addToCart = ref.read(addToCartUseCaseProvider);
+    state = addToCart(product);
   }
 
   void removeFromCart(String productId) {
-    state = state.where((item) => item.product.id != productId).toList();
+    final removeFromCart = ref.read(removeFromCartUseCaseProvider);
+    state = removeFromCart(productId);
   }
 
   void updateQuantity(String productId, int quantity) {
-    if (quantity < 1) return;
-    state = [
-      for (final item in state)
-        if (item.product.id == productId) item.copyWith(quantity: quantity) else item,
-    ];
+    final updateQuantity = ref.read(updateCartQuantityUseCaseProvider);
+    state = updateQuantity(productId, quantity);
   }
 
   void toggleSelection(String productId) {
-    state = [
-      for (final item in state)
-        if (item.product.id == productId) item.copyWith(isSelected: !item.isSelected) else item,
-    ];
+    final toggleSelection = ref.read(toggleCartSelectionUseCaseProvider);
+    state = toggleSelection(productId);
   }
 
   void toggleAllSelection(bool isSelected) {
-    state = [for (final item in state) item.copyWith(isSelected: isSelected)];
+    final toggleAllSelection = ref.read(toggleAllCartSelectionUseCaseProvider);
+    state = toggleAllSelection(isSelected);
   }
 
   void clearCart() {
-    state = [];
+    final clearCart = ref.read(clearCartUseCaseProvider);
+    state = clearCart();
   }
 
   double get totalPrice {
-    return state.fold(0, (sum, item) => sum + item.totalPrice);
+    final getCartTotal = ref.read(getCartTotalUseCaseProvider);
+    return getCartTotal(state);
   }
 }

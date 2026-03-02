@@ -114,7 +114,7 @@ class FakeNotificationRepository implements NotificationRepository {
   ];
 
   @override
-  Future<List<NotificationCategory>> fetchCategories() async {
+  Future<List<NotificationCategory>> getCategories() async {
     await Future.delayed(const Duration(milliseconds: 300));
     
     // Helper to count unread items for a specific type
@@ -177,7 +177,7 @@ class FakeNotificationRepository implements NotificationRepository {
   }
 
   @override
-  Future<List<NotificationItem>> fetchOrderUpdates() async {
+  Future<List<NotificationItem>> getOrderUpdates() async {
     await Future.delayed(const Duration(milliseconds: 500));
     return _allNotifications
         .where((n) => n.type == NotificationType.orderUpdate)
@@ -185,7 +185,7 @@ class FakeNotificationRepository implements NotificationRepository {
   }
 
   @override
-  Future<List<NotificationItem>> fetchNotificationsByType(NotificationType type) async {
+  Future<List<NotificationItem>> getNotificationsByType(NotificationType type) async {
     await Future.delayed(const Duration(milliseconds: 300));
     return _allNotifications.where((n) => n.type == type).toList();
   }

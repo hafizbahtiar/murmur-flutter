@@ -9,54 +9,6 @@ part of 'live_video_provider.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
-@ProviderFor(liveVideoRepository)
-final liveVideoRepositoryProvider = LiveVideoRepositoryProvider._();
-
-final class LiveVideoRepositoryProvider
-    extends
-        $FunctionalProvider<
-          LiveVideoRepository,
-          LiveVideoRepository,
-          LiveVideoRepository
-        >
-    with $Provider<LiveVideoRepository> {
-  LiveVideoRepositoryProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'liveVideoRepositoryProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$liveVideoRepositoryHash();
-
-  @$internal
-  @override
-  $ProviderElement<LiveVideoRepository> $createElement(
-    $ProviderPointer pointer,
-  ) => $ProviderElement(pointer);
-
-  @override
-  LiveVideoRepository create(Ref ref) {
-    return liveVideoRepository(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(LiveVideoRepository value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<LiveVideoRepository>(value),
-    );
-  }
-}
-
-String _$liveVideoRepositoryHash() =>
-    r'cf48bca911216067abe620388205d11eb1376bfe';
-
 @ProviderFor(LiveVideoList)
 final liveVideoListProvider = LiveVideoListFamily._();
 
@@ -98,7 +50,7 @@ final class LiveVideoListProvider
   }
 }
 
-String _$liveVideoListHash() => r'9b3209bbba70db7f6d201ea9e0ce2d5d6fc8163c';
+String _$liveVideoListHash() => r'addb1687076baa49a4d1772731f965896fe8a985';
 
 final class LiveVideoListFamily extends $Family
     with

@@ -14,6 +14,7 @@ class ProductListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final products = ref.watch(productListProvider);
     final cartItems = ref.watch(cartProvider);
+    final cartItemCount = cartItems.length;
     const primaryColor = Color(0xFFEE4D2D);
     const murmurGreen = Color(0xFF1E8373); // Dark Green Background
 
@@ -53,7 +54,7 @@ class ProductListScreen extends ConsumerWidget {
                 },
                 icon: Badge(
                   isLabelVisible: cartItems.isNotEmpty,
-                  label: Text(cartItems.length.toString()),
+                  label: Text(cartItemCount.toString()),
                   backgroundColor: Colors.white,
                   textColor: primaryColor,
                   child: const Icon(Icons.shopping_cart_outlined, color: Colors.white),
