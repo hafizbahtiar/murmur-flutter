@@ -1,5 +1,5 @@
-import '../domain/models/product_review.dart';
-import '../domain/repositories/product_review_repository.dart';
+import '../../domain/models/product_review.dart';
+import '../../domain/repositories/product_review_repository.dart';
 
 class FakeProductReviewRepository implements ProductReviewRepository {
   static final _reviews = [

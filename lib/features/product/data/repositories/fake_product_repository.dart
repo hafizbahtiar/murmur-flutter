@@ -1,5 +1,5 @@
-import '../domain/models/product.dart';
-import '../domain/repositories/product_repository.dart';
+import '../../domain/models/product.dart';
+import '../../domain/repositories/product_repository.dart';
 
 class FakeProductRepository implements ProductRepository {
   static const _products = [

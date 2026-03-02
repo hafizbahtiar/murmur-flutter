@@ -1,5 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import '../../data/fake_product_review_repository.dart';
+import '../../data/repositories/fake_product_review_repository.dart';
 import '../../domain/models/product_review.dart';
 import '../../domain/repositories/product_review_repository.dart';
 
