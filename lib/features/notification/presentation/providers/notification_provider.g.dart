@@ -105,13 +105,13 @@ final orderUpdatesProvider = OrderUpdatesProvider._();
 final class OrderUpdatesProvider
     extends
         $FunctionalProvider<
-          AsyncValue<List<OrderUpdate>>,
-          List<OrderUpdate>,
-          FutureOr<List<OrderUpdate>>
+          AsyncValue<List<NotificationItem>>,
+          List<NotificationItem>,
+          FutureOr<List<NotificationItem>>
         >
     with
-        $FutureModifier<List<OrderUpdate>>,
-        $FutureProvider<List<OrderUpdate>> {
+        $FutureModifier<List<NotificationItem>>,
+        $FutureProvider<List<NotificationItem>> {
   OrderUpdatesProvider._()
     : super(
         from: null,
@@ -128,14 +128,128 @@ final class OrderUpdatesProvider
 
   @$internal
   @override
-  $FutureProviderElement<List<OrderUpdate>> $createElement(
+  $FutureProviderElement<List<NotificationItem>> $createElement(
     $ProviderPointer pointer,
   ) => $FutureProviderElement(pointer);
 
   @override
-  FutureOr<List<OrderUpdate>> create(Ref ref) {
+  FutureOr<List<NotificationItem>> create(Ref ref) {
     return orderUpdates(ref);
   }
 }
 
-String _$orderUpdatesHash() => r'704df873c7ac1ac576e15d3e532cb2432bf1b287';
+String _$orderUpdatesHash() => r'a9315c9a521988f1963f4fa010927659e110f8f1';
+
+@ProviderFor(notificationList)
+final notificationListProvider = NotificationListFamily._();
+
+final class NotificationListProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<NotificationItem>>,
+          List<NotificationItem>,
+          FutureOr<List<NotificationItem>>
+        >
+    with
+        $FutureModifier<List<NotificationItem>>,
+        $FutureProvider<List<NotificationItem>> {
+  NotificationListProvider._({
+    required NotificationListFamily super.from,
+    required NotificationType super.argument,
+  }) : super(
+         retry: null,
+         name: r'notificationListProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$notificationListHash();
+
+  @override
+  String toString() {
+    return r'notificationListProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $FutureProviderElement<List<NotificationItem>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<NotificationItem>> create(Ref ref) {
+    final argument = this.argument as NotificationType;
+    return notificationList(ref, argument);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is NotificationListProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$notificationListHash() => r'3b9d349d1d4314071994cafefc92ee5a0bbb0b4b';
+
+final class NotificationListFamily extends $Family
+    with
+        $FunctionalFamilyOverride<
+          FutureOr<List<NotificationItem>>,
+          NotificationType
+        > {
+  NotificationListFamily._()
+    : super(
+        retry: null,
+        name: r'notificationListProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  NotificationListProvider call(NotificationType type) =>
+      NotificationListProvider._(argument: type, from: this);
+
+  @override
+  String toString() => r'notificationListProvider';
+}
+
+@ProviderFor(totalUnreadCount)
+final totalUnreadCountProvider = TotalUnreadCountProvider._();
+
+final class TotalUnreadCountProvider
+    extends $FunctionalProvider<AsyncValue<int>, int, FutureOr<int>>
+    with $FutureModifier<int>, $FutureProvider<int> {
+  TotalUnreadCountProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'totalUnreadCountProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$totalUnreadCountHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<int> $createElement($ProviderPointer pointer) =>
+      $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<int> create(Ref ref) {
+    return totalUnreadCount(ref);
+  }
+}
+
+String _$totalUnreadCountHash() => r'20c9182756d28b65708ad631d8375fd346867c7f';

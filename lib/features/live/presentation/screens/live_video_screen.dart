@@ -6,7 +6,8 @@ import '../providers/live_video_provider.dart';
 import '../../domain/models/live_video.dart';
 
 class LiveVideoScreen extends ConsumerStatefulWidget {
-  const LiveVideoScreen({super.key});
+  final bool isActive;
+  const LiveVideoScreen({super.key, this.isActive = true});
 
   @override
   ConsumerState<LiveVideoScreen> createState() => _LiveVideoScreenState();
@@ -56,10 +57,10 @@ class _LiveVideoScreenState extends ConsumerState<LiveVideoScreen> {
                   },
                   itemCount: videos.length,
                   itemBuilder: (context, index) {
-                    // Only play video if it's the current page AND screen is visible
+                    // Only play video if it's the current page AND screen is visible AND tab is active
                     return _VideoItem(
                       video: videos[index],
-                      shouldPlay: index == _currentPage && _isScreenVisible,
+                      shouldPlay: index == _currentPage && _isScreenVisible && widget.isActive,
                     );
                   },
                 );

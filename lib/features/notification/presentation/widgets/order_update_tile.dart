@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../domain/models/order_update.dart';
+import '../../domain/models/notification_item.dart';
 
 class OrderUpdateTile extends StatelessWidget {
-  final OrderUpdate update;
+  final NotificationItem update;
 
   const OrderUpdateTile({super.key, required this.update});
 
@@ -16,16 +16,17 @@ class OrderUpdateTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Product Image
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade200),
-              borderRadius: BorderRadius.circular(4),
-              image: DecorationImage(image: NetworkImage(update.imageUrl), fit: BoxFit.cover),
+          if (update.imageUrl != null)
+            Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade200),
+                borderRadius: BorderRadius.circular(4),
+                image: DecorationImage(image: NetworkImage(update.imageUrl!), fit: BoxFit.cover),
+              ),
             ),
-          ),
-          const SizedBox(width: 12),
+          if (update.imageUrl != null) const SizedBox(width: 12),
 
           // Content
           Expanded(

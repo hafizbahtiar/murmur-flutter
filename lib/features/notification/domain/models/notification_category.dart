@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'notification_item.dart';
 
 class NotificationCategory {
   final String id;
@@ -8,6 +9,7 @@ class NotificationCategory {
   final String title;
   final String subtitle;
   final int unreadCount;
+  final NotificationType? type; // Link to NotificationType for filtering
 
   const NotificationCategory({
     required this.id,
@@ -17,5 +19,6 @@ class NotificationCategory {
     required this.title,
     required this.subtitle,
     required this.unreadCount,
+    this.type,
   });
 }

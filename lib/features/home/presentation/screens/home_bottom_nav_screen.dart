@@ -16,24 +16,23 @@ class HomeBottomNavScreen extends ConsumerStatefulWidget {
 class _HomeBottomNavScreenState extends ConsumerState<HomeBottomNavScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    const ProductListScreen(),
-    const Scaffold(body: Center(child: Text('Mall Screen'))),
-    const LiveVideoScreen(),
-    const NotificationScreen(),
-    const ProfileScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     const activeColor = Color(0xFFEE4D2D);
     const inactiveColor = Colors.grey;
 
-    final notificationCategories = ref.watch(notificationCategoriesProvider).value ?? [];
-    final totalUnread = notificationCategories.fold<int>(0, (sum, category) => sum + category.unreadCount);
+    final totalUnread = ref.watch(totalUnreadCountProvider).value ?? 0;
+
+    final screens = [
+      const ProductListScreen(),
+      const Scaffold(body: Center(child: Text('Mall Screen'))),
+      LiveVideoScreen(isActive: _currentIndex == 2),
+      const NotificationScreen(),
+      const ProfileScreen(),
+    ];
 
     return Scaffold(
-      body: IndexedStack(index: _currentIndex, children: _screens),
+      body: IndexedStack(index: _currentIndex, children: screens),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),

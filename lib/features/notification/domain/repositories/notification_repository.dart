@@ -1,7 +1,9 @@
 import '../models/notification_category.dart';
-import '../models/order_update.dart';
+import '../models/notification_item.dart';
 
 abstract class NotificationRepository {
   Future<List<NotificationCategory>> fetchCategories();
-  Future<List<OrderUpdate>> fetchOrderUpdates();
+  Future<List<NotificationItem>> fetchOrderUpdates();
+  Future<List<NotificationItem>> fetchNotificationsByType(NotificationType type);
+  Future<int> getTotalUnreadCount();
 }
