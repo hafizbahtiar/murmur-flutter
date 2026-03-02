@@ -4,8 +4,9 @@ import '../../domain/models/product_review.dart';
 class ProductReviewCard extends StatelessWidget {
   final ProductReview review;
   final bool isDetailView;
+  final Function(int index)? onImageTap;
 
-  const ProductReviewCard({super.key, required this.review, this.isDetailView = false});
+  const ProductReviewCard({super.key, required this.review, this.isDetailView = false, this.onImageTap});
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +46,14 @@ class ProductReviewCard extends StatelessWidget {
           const SizedBox(height: 8),
           Row(
             children: List.generate(5, (index) {
+              IconData icon = Icons.star_border;
+              if (review.rating >= index + 1) {
+                icon = Icons.star;
+              } else if (review.rating >= index + 0.5) {
+                icon = Icons.star_half;
+              }
               return Icon(
-                index < review.rating ? Icons.star : Icons.star_border,
+                icon,
                 size: 12,
                 color: const Color(0xFFEE4D2D),
               );
@@ -67,12 +74,15 @@ class ProductReviewCard extends StatelessWidget {
                 itemCount: review.imageUrls.length,
                 separatorBuilder: (context, index) => const SizedBox(width: 8),
                 itemBuilder: (context, index) {
-                  return Container(
-                    width: 72,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey[300]!),
-                      borderRadius: BorderRadius.circular(4),
-                      image: DecorationImage(image: NetworkImage(review.imageUrls[index]), fit: BoxFit.cover),
+                  return GestureDetector(
+                    onTap: () => onImageTap?.call(index),
+                    child: Container(
+                      width: 72,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey[300]!),
+                        borderRadius: BorderRadius.circular(4),
+                        image: DecorationImage(image: NetworkImage(review.imageUrls[index]), fit: BoxFit.cover),
+                      ),
                     ),
                   );
                 },

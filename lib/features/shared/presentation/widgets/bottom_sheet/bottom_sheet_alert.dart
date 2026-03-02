@@ -1,0 +1,233 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+import 'bottom_sheet_action.dart';
+import 'cancel_action.dart';
+import 'custom_bottom_sheet.dart';
+
+/// A action bottom sheet that adapts to the platform (Android/iOS).
+///
+/// [actions] The Actions list that will appear on the ActionSheet. (required)
+///
+/// [cancelAction] The optional cancel button that show under the
+/// actions (grouped separately on iOS).
+///
+/// [title] The optional title widget that show above the actions.
+///
+/// [androidBorderRadius] The android border radius.
+///
+/// The optional [backgroundColor] and [barrierColor] can be passed in to
+/// customize the appearance and behavior of persistent bottom sheets.
+///
+/// The optional [isDismissible] can be passed to set barrierDismissible of showCupertinoModalPopup
+/// and isDismissible of showModalBottomSheet (Default true as for both implementations)
+///
+/// The optional [useRootNavigator] can be passed to set useRootNavigator of showCupertinoModalPopup
+/// (Default true) and useRootNavigator of showModalBottomSheet (Default false)
+Future<T?> showAdaptiveActionSheet<T>({
+  required BuildContext context,
+  Widget? title,
+  required List<BottomSheetAction> actions,
+  CancelAction? cancelAction,
+  Color? barrierColor,
+  Color? bottomSheetColor,
+  double? androidBorderRadius,
+  bool isDismissible = true,
+  bool? useRootNavigator,
+}) async {
+  assert(barrierColor != Colors.transparent, 'The barrier color cannot be transparent.');
+
+  return _show<T>(
+    context,
+    title,
+    actions,
+    cancelAction,
+    barrierColor,
+    bottomSheetColor,
+    androidBorderRadius,
+    isDismissible: isDismissible,
+    useRootNavigator: useRootNavigator,
+  );
+}
+
+Future<T?> _show<T>(
+  BuildContext context,
+  Widget? title,
+  List<BottomSheetAction> actions,
+  CancelAction? cancelAction,
+  Color? barrierColor,
+  Color? bottomSheetColor,
+  double? androidBorderRadius, {
+  bool isDismissible = true,
+  bool? useRootNavigator,
+}) {
+  if (Platform.isIOS) {
+    return _showCupertinoBottomSheet(
+      context,
+      title,
+      actions,
+      cancelAction,
+      isDismissible: isDismissible,
+      useRootNavigator: useRootNavigator,
+    );
+  } else {
+    return _showMaterialBottomSheet(
+      context,
+      title,
+      actions,
+      cancelAction,
+      barrierColor,
+      bottomSheetColor,
+      androidBorderRadius,
+      isDismissible: isDismissible,
+      useRootNavigator: useRootNavigator,
+    );
+  }
+}
+
+Future<T?> _showCupertinoBottomSheet<T>(
+  BuildContext context,
+  Widget? title,
+  List<BottomSheetAction> actions,
+  CancelAction? cancelAction, {
+  bool isDismissible = true,
+  bool? useRootNavigator,
+}) {
+  final defaultTextStyle = Theme.of(context).textTheme.titleLarge ?? const TextStyle(fontSize: 20);
+  return showCupertinoModalPopup(
+    context: context,
+    barrierDismissible: isDismissible,
+    useRootNavigator: useRootNavigator ?? true,
+    builder: (BuildContext coxt) {
+      return CupertinoActionSheet(
+        title: title,
+        actions: actions.map((action) {
+          /// Modal Popup doesn't inherited material widget
+          /// so need to provide one in case trailing or
+          /// leading widget require a Material widget ancestor.
+          return Material(
+            color: Colors.transparent,
+            child: CupertinoActionSheetAction(
+              onPressed: () => action.onPressed(coxt),
+              child: Row(
+                children: [
+                  if (action.leading != null) ...[action.leading!, const SizedBox(width: 15)],
+                  Expanded(
+                    child: DefaultTextStyle(
+                      style: defaultTextStyle,
+                      textAlign: action.leading != null ? TextAlign.start : TextAlign.center,
+                      child: action.title,
+                    ),
+                  ),
+                  if (action.trailing != null) ...[const SizedBox(width: 10), action.trailing!],
+                ],
+              ),
+            ),
+          );
+        }).toList(),
+        cancelButton: cancelAction != null
+            ? CupertinoActionSheetAction(
+                onPressed: () {
+                  if (cancelAction.onPressed != null) {
+                    cancelAction.onPressed!(coxt);
+                  } else {
+                    Navigator.of(coxt).pop();
+                  }
+                },
+                child: DefaultTextStyle(
+                  style: defaultTextStyle.copyWith(color: Colors.lightBlue),
+                  textAlign: TextAlign.center,
+                  child: cancelAction.title,
+                ),
+              )
+            : null,
+      );
+    },
+  );
+}
+
+Future<T?> _showMaterialBottomSheet<T>(
+  BuildContext context,
+  Widget? title,
+  List<BottomSheetAction> actions,
+  CancelAction? cancelAction,
+  Color? barrierColor,
+  Color? bottomSheetColor,
+  double? androidBorderRadius, {
+  bool isDismissible = true,
+  bool? useRootNavigator,
+}) {
+  final defaultTextStyle = Theme.of(context).textTheme.titleLarge ?? const TextStyle(fontSize: 20);
+
+  return showModalBottomSheet<T>(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    barrierColor: barrierColor,
+    isDismissible: isDismissible,
+    enableDrag: isDismissible,
+    useRootNavigator: useRootNavigator ?? false,
+    builder: (BuildContext coxt) {
+      return CustomBottomSheetContent(
+        backgroundColor: bottomSheetColor,
+        borderRadius: androidBorderRadius ?? 30,
+        padding: EdgeInsets.zero,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            if (title != null) ...[
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(child: title),
+              ),
+            ],
+            ...actions.map<Widget>((action) {
+              return InkWell(
+                onTap: () => action.onPressed(coxt),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      if (action.leading != null) ...[action.leading!, const SizedBox(width: 15)],
+                      Expanded(
+                        child: DefaultTextStyle(
+                          style: defaultTextStyle,
+                          textAlign: action.leading != null ? TextAlign.start : TextAlign.center,
+                          child: action.title,
+                        ),
+                      ),
+                      if (action.trailing != null) ...[const SizedBox(width: 10), action.trailing!],
+                    ],
+                  ),
+                ),
+              );
+            }),
+            if (cancelAction != null)
+              InkWell(
+                onTap: () {
+                  if (cancelAction.onPressed != null) {
+                    cancelAction.onPressed!(coxt);
+                  } else {
+                    Navigator.of(coxt).pop();
+                  }
+                },
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: DefaultTextStyle(
+                      style: defaultTextStyle.copyWith(color: Colors.lightBlue),
+                      textAlign: TextAlign.center,
+                      child: cancelAction.title,
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      );
+    },
+  );
+}

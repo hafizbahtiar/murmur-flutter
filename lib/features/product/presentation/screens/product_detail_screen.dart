@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../cart/presentation/providers/cart_provider.dart';
@@ -9,6 +10,7 @@ import '../providers/product_provider.dart';
 import '../widgets/product_bottom_bar.dart';
 import '../widgets/product_review_card.dart';
 import 'product_review_list_screen.dart';
+import 'review_reel_screen.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final Product product;
@@ -344,6 +346,10 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                       child: Text('No reviews yet.'),
                                     );
                                   }
+
+                                  final double averageRating =
+                                      reviews.fold(0.0, (sum, review) => sum + review.rating) / reviews.length;
+
                                   return Column(
                                     children: [
                                       Row(
@@ -351,9 +357,9 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                         children: [
                                           Row(
                                             children: [
-                                              const Text(
-                                                '5.0',
-                                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                              Text(
+                                                averageRating.toStringAsFixed(1),
+                                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                                               ),
                                               const SizedBox(width: 4),
                                               const Icon(Icons.star, color: Color(0xFFFFC107), size: 16),
@@ -398,7 +404,29 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                       // Show only first 3 reviews
                                       ...reviews
                                           .take(3)
-                                          .map((review) => ProductReviewCard(review: review, isDetailView: true)),
+                                          .map(
+                                            (review) => ProductReviewCard(
+                                              review: review,
+                                              isDetailView: true,
+                                              onImageTap: (_) {
+                                                final reviewsWithImages = reviews
+                                                    .where((r) => r.imageUrls.isNotEmpty)
+                                                    .toList();
+                                                final initialIndex = reviewsWithImages.indexOf(review);
+                                                if (initialIndex != -1) {
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (_) => ReviewReelScreen(
+                                                        reviews: reviewsWithImages,
+                                                        initialIndex: initialIndex,
+                                                        product: product,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }
+                                              },
+                                            ),
+                                          ),
                                     ],
                                   );
                                 },
@@ -535,11 +563,12 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                   height: 56,
                   child: Row(
                     children: [
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8), // Reset to 8, we handle centering internally
                       _buildAppBarButton(
-                        icon: Icons.arrow_back,
+                        icon: Icons.adaptive.arrow_back,
                         onPressed: () => Navigator.of(context).pop(),
                         opacity: _opacity,
+                        iconPadding: Platform.isIOS || Platform.isMacOS ? const EdgeInsets.only(left: 4.0) : null,
                       ),
                       if (_opacity > 0.5) ...[
                         const SizedBox(width: 8),
@@ -617,7 +646,12 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
     );
   }
 
-  Widget _buildAppBarButton({required IconData icon, required VoidCallback onPressed, required double opacity}) {
+  Widget _buildAppBarButton({
+    required IconData icon,
+    required VoidCallback onPressed,
+    required double opacity,
+    EdgeInsetsGeometry? iconPadding,
+  }) {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
@@ -627,7 +661,10 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
           color: opacity < 0.5 ? Colors.black.withAlpha(75) : Colors.transparent,
           shape: BoxShape.circle,
         ),
-        child: Icon(icon, color: opacity > 0.5 ? const Color(0xFFEE4D2D) : Colors.white, size: 24),
+        child: Padding(
+          padding: iconPadding ?? EdgeInsets.zero,
+          child: Icon(icon, color: opacity > 0.5 ? const Color(0xFFEE4D2D) : Colors.white, size: 24),
+        ),
       ),
     );
   }
