@@ -285,7 +285,7 @@ class ProductListScreen extends ConsumerWidget {
                 );
               }
               return SliverPadding(
-                padding: const EdgeInsets.all(8),
+                padding: const EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 100),
                 sliver: SliverGrid(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -293,10 +293,9 @@ class ProductListScreen extends ConsumerWidget {
                     crossAxisSpacing: 8,
                     mainAxisSpacing: 8,
                   ),
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) => ProductCard(product: items[index]),
-                    childCount: items.length,
-                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    return ProductCard(product: items[index]);
+                  }, childCount: items.length),
                 ),
               );
             },
@@ -448,7 +447,9 @@ class ProductListScreen extends ConsumerWidget {
                     child: CachedNetworkImage(
                       imageUrl: imageUrl,
                       fit: BoxFit.contain,
-                      placeholder: (context, url) => const Center(child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
+                      placeholder: (context, url) => const Center(
+                        child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
+                      ),
                       errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.grey),
                     ),
                   ),

@@ -6,8 +6,8 @@ import '../providers/notification_provider.dart';
 import '../widgets/notification_category_tile.dart';
 import '../widgets/order_update_tile.dart';
 
-class NotificationScreen extends ConsumerWidget {
-  const NotificationScreen({super.key});
+class NotificationListScreen extends ConsumerWidget {
+  const NotificationListScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -108,10 +108,13 @@ class NotificationScreen extends ConsumerWidget {
 
           // 3. Order Updates List
           updatesAsync.when(
-            data: (updates) => SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => OrderUpdateTile(update: updates[index]),
-                childCount: updates.length,
+            data: (updates) => SliverPadding(
+              padding: const EdgeInsets.only(bottom: 100),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => OrderUpdateTile(update: updates[index]),
+                  childCount: updates.length,
+                ),
               ),
             ),
             loading: () => const SliverToBoxAdapter(

@@ -4,18 +4,18 @@ import '../../domain/models/product.dart';
 import '../../domain/models/product_review.dart';
 import '../../../shared/presentation/widgets/adaptive_back_button.dart';
 
-class ReviewReelScreen extends StatefulWidget {
+class ProductReviewReelScreen extends StatefulWidget {
   final List<ProductReview> reviews;
   final int initialIndex;
   final Product product;
 
-  const ReviewReelScreen({super.key, required this.reviews, required this.initialIndex, required this.product});
+  const ProductReviewReelScreen({super.key, required this.reviews, required this.initialIndex, required this.product});
 
   @override
-  State<ReviewReelScreen> createState() => _ReviewReelScreenState();
+  State<ProductReviewReelScreen> createState() => _ProductReviewReelScreenState();
 }
 
-class _ReviewReelScreenState extends State<ReviewReelScreen> {
+class _ProductReviewReelScreenState extends State<ProductReviewReelScreen> {
   late PageController _pageController;
 
   @override

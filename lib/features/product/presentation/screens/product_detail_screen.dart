@@ -11,7 +11,7 @@ import '../providers/product_provider.dart';
 import '../widgets/product_bottom_bar.dart';
 import '../widgets/product_review_card.dart';
 import 'product_review_list_screen.dart';
-import 'review_reel_screen.dart';
+import 'product_review_reel_screen.dart';
 
 class ProductDetailScreen extends ConsumerStatefulWidget {
   final Product product;
@@ -439,7 +439,7 @@ class _ProductDetailScreenState extends ConsumerState<ProductDetailScreen> {
                                                 if (initialIndex != -1) {
                                                   Navigator.of(context).push(
                                                     MaterialPageRoute(
-                                                      builder: (_) => ReviewReelScreen(
+                                                      builder: (_) => ProductReviewReelScreen(
                                                         reviews: reviewsWithImages,
                                                         initialIndex: initialIndex,
                                                         product: product,
